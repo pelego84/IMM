@@ -14,7 +14,7 @@ public class wsTicket {
 	
 	@WebMethod()
 	public DataTicket altaTicket(String matricula, Date fechaIniE, int cantMinutos, Date fechaVenta, String agencia){
-		ctrWS ctr = new ctrWS();		
+		ctrWS ctr = ctrWS.getInstance();		
 		return ctr.altaTicket(matricula, fechaIniE, cantMinutos, fechaVenta, agencia);
 	}
 }
