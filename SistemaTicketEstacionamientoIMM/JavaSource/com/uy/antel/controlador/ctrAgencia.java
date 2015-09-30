@@ -37,7 +37,7 @@ public class ctrAgencia {
 					mensaje = "La matricula consta de tres letras y cuatro números (Ejemplo: ABC 1234)";
 					break;
 				}case 101:{
-					mensaje = "La fecha de estacionamiento debe ser en el futuro.";
+					mensaje = "La fecha de la solicitud de estacionamiento debe ser en el futuro.";
 					break;
 				}case 103:{
 					mensaje = "La cantidad de minutos debe ser un múltiplo de 30.";

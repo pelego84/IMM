@@ -136,12 +136,12 @@ public class ctrDAO {
             ps_update_secuencia.executeUpdate();
             
             //Agrego el nuevo Ticket
-            java.sql.Date sqlfechaIniE = new java.sql.Date(fechaIniE.getTime());
-		    java.sql.Date sqlfechaVenta = new java.sql.Date(fechaVenta.getTime());
+            java.sql.Timestamp sqlfechaIniE = new java.sql.Timestamp(fechaIniE.getTime());
+		    java.sql.Timestamp sqlfechaVenta = new java.sql.Timestamp(fechaVenta.getTime());
             PreparedStatement ps_insert_auto = conn.prepareStatement("INSERT INTO ticket(nroTicket, fechaVenta, fechaIniE, cantMinutos, ImporteTotal,  fk_auto) values (?,?,?,?,?,?)");            
             ps_insert_auto.setInt(1, idNuevoTicket);
-            ps_insert_auto.setDate(2, sqlfechaVenta);
-            ps_insert_auto.setDate(3, sqlfechaIniE);
+            ps_insert_auto.setTimestamp(2, sqlfechaVenta);
+            ps_insert_auto.setTimestamp(3, sqlfechaIniE);
             ps_insert_auto.setInt(4, cantMinutos);
             ps_insert_auto.setInt(5, importe);
             ps_insert_auto.setInt(6, idAuto);
