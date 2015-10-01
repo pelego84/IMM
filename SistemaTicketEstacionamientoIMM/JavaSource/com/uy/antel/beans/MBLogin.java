@@ -1,11 +1,16 @@
 package com.uy.antel.beans;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import com.uy.antel.controlador.ctrUsuario;
+
 public class MBLogin {
 	private String usuario;
 	private String password;
 	
 	public MBLogin(){
-		System.out.println("COnstructor login");
+		
 	}
 	
 	public String getUsuario() {
@@ -22,14 +27,15 @@ public class MBLogin {
 	}
 	
 	public String procesarLogin(){
-		System.out.println(usuario);
-		System.out.println(password);
-		
-		String destino;
-		if (false)
+		String destino = "Error";
+		ctrUsuario ctr = ctrUsuario.getInstance();
+		if (ctr.validaCredenciales(usuario,password))
 			destino = "OK";
-		else
-			destino = "ERROR";
+		else{
+			String errorMessage = "El usuario y password no son correctos.";
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);	
+			FacesContext.getCurrentInstance().addMessage(null, message);			
+		}
 		return destino;
 	}
 }

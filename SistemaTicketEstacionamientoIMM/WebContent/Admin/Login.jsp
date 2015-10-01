@@ -37,8 +37,7 @@
 		<tr>
 			<td></td>
 			<td align="left">
-				<h:commandButton id="idComButtomLogin"  value="Login" action="#{manejadorlogin.procesarLogin}">
-					
+				<h:commandButton id="idComButtomLogin"  value="Login" action="#{manejadorlogin.procesarLogin}">					
 				</h:commandButton>
 			</td>
 		</tr>

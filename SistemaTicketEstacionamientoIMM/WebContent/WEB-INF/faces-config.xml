@@ -10,11 +10,11 @@
 	 	 <from-view-id>*</from-view-id>
 		 <navigation-case>
 			 <from-outcome>OK</from-outcome>
-			 <to-view-id>/Admin/Login.jsp</to-view-id>
+			 <to-view-id>/Admin/ReportesMensuales.jsp</to-view-id>
 		 </navigation-case>
 		 <navigation-case>
 			 <from-outcome>ERROR</from-outcome>
-			 <to-view-id>/Admin/Error.jsp</to-view-id>
+			 <to-view-id>/Admin/Login.jsp</to-view-id>
 		 </navigation-case>
 	 </navigation-rule>
 
