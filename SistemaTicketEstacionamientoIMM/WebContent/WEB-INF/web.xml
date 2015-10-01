@@ -16,7 +16,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>/faces/*</url-pattern>
+    <url-pattern>/Admin/faces/*</url-pattern>
   </servlet-mapping>
    <servlet>
     <display-name>wsTicket</display-name>

@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Date;
 
 import javax.naming.InitialContext;
@@ -42,7 +41,6 @@ public class ctrDAO {
         	//Verifico si existe en el sistema un auto con esa matricula
         	PreparedStatement ps_agencia = conn.prepareStatement("SELECT idAgencia FROM agencia WHERE identificador=?");
         	ps_agencia.setString(1, agencia);
-        	System.out.println(ps_agencia.toString());
         	ResultSet rs_agencia = ps_agencia.executeQuery();             
             if (rs_agencia.next()) {            	
             	agenciaOK = true;
@@ -66,14 +64,11 @@ public class ctrDAO {
         	 //Verifico si existe en el sistema un auto con esa matricula
         	 PreparedStatement ps_auto = conn.prepareStatement("SELECT idAuto FROM auto where matricula=?");
         	 ps_auto.setString(1, matricula);
-        	 System.out.println(ps_auto.toString());
         	 ResultSet rs_auto = ps_auto.executeQuery();             
              if (rs_auto.next()) {            	
-            	 System.out.println("Existe auto");
-            	 idNuevoAuto = rs_auto.getInt("idAuto");
+            	idNuevoAuto = rs_auto.getInt("idAuto");
              } else {            	 
             	 conn.setAutoCommit(false);
-            	 System.out.println("NO Existe auto");
             	 //Obtengo idAuto de la secuencia
                  PreparedStatement ps_secuencia = conn.prepareStatement("SELECT idAuto FROM secuencias");
                  ResultSet rs_secuencia = ps_secuencia.executeQuery();
