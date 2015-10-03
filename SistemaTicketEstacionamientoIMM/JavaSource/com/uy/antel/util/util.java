@@ -6,9 +6,10 @@ import java.util.Date;
 
 
 public class util {
+	private static String formatoEsperadoFecha = "yyyy-MM-dd_HH:mm";
 
 	public static Date stringToDate(String fechaStr) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd_hh:mm");
+		SimpleDateFormat format = new SimpleDateFormat(formatoEsperadoFecha);
 		Date resultDate = new Date();		
 		format.setLenient(false);
 	    try {
@@ -20,12 +21,12 @@ public class util {
 	}
 
 	public static String dateToString(Date fecha) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd_hh:mm");
+		SimpleDateFormat format = new SimpleDateFormat(formatoEsperadoFecha);
 		return format.format(fecha);
 	}
 	
 	public static boolean esValidaFecha(String fecha) {
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_hh:mm");
+	    SimpleDateFormat dateFormat = new SimpleDateFormat(formatoEsperadoFecha);
 	    dateFormat.setLenient(false);
 	    try {
 	      dateFormat.parse(fecha.trim());

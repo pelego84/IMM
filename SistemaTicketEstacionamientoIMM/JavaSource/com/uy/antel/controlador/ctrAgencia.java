@@ -44,7 +44,7 @@ public class ctrAgencia {
 					mensaje = "La cantidad de minutos debe ser un múltiplo de 30.";
 					break;
 				}case 105:{
-					mensaje = "Las fechas deben respetar el formato yyyy-MM-dd_hh:mm.";
+					mensaje = "Las fechas deben respetar el formato yyyy-MM-dd_HH:mm.";
 					break;
 				}default: {
 						if (validarAgencia(agencia)){

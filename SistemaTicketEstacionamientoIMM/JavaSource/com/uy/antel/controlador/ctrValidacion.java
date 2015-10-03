@@ -39,7 +39,7 @@ public class ctrValidacion implements ICtrValidacion {
 	}
 	
 	private boolean validarFormatoFecha(String fecha){
-		//La fecha debe tener el formato "yyyy-MM-dd_hh:mm"
+		//La fecha debe tener el formato "yyyy-MM-dd_HH:mm"
 		return util.esValidaFecha(fecha);
 	}
 	
