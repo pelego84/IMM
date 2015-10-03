@@ -7,10 +7,10 @@
 	version="2.0">
 	
 	<navigation-rule>
-	 	 <from-view-id>*</from-view-id>
+	 	 <from-view-id>/Admin/Login.jsp</from-view-id>
 		 <navigation-case>
 			 <from-outcome>OK</from-outcome>
-			 <to-view-id>/Admin/ReportesMensuales.jsp</to-view-id>
+			 <to-view-id>/Admin/ReporteVentasMensual.jsp</to-view-id>
 		 </navigation-case>
 		 <navigation-case>
 			 <from-outcome>ERROR</from-outcome>

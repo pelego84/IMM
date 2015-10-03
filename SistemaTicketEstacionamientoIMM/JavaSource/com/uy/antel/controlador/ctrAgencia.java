@@ -3,6 +3,7 @@ package com.uy.antel.controlador;
 import java.util.Date;
 
 import com.uy.antel.modelo.DataTicket;
+import com.uy.antel.util.util;
 
 public class ctrAgencia {
 
@@ -23,7 +24,7 @@ public class ctrAgencia {
 		return ctrDAO.validarAgencia(agencia);
 	}
 	
-	public DataTicket altaTicket(String matricula, Date fechaIniE, int cantMinutos, Date fechaVenta, String agencia){
+	public DataTicket altaTicket(String matricula, String fechaIniE, int cantMinutos, String fechaVenta, String agencia){
 		int error = 0;
 		String mensaje = "";
 		DataTicket result = new DataTicket();
@@ -42,11 +43,14 @@ public class ctrAgencia {
 				}case 103:{
 					mensaje = "La cantidad de minutos debe ser un múltiplo de 30.";
 					break;
+				}case 105:{
+					mensaje = "Las fechas deben respetar el formato yyyy-MM-dd_hh:mm.";
+					break;
 				}default: {
 						if (validarAgencia(agencia)){
 							int idAuto = ctrDAO.altaAuto(matricula);				
 							ctrTicket ctr = ctrTicket.getInstance();				
-							result = ctr.altaTicket(idAuto, fechaIniE, cantMinutos, fechaVenta);
+							result = ctr.altaTicket(idAuto, util.stringToDate(fechaIniE), cantMinutos, util.stringToDate(fechaVenta));
 						}else{
 							error = 100;
 							mensaje = "La agencia no es correcta";

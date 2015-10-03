@@ -14,8 +14,8 @@ public class ctrUsuario {
 		return instance;			
 	}
 	
-	public boolean validaCredenciales(String usuario, String password){
-		return false;
+	public boolean validaCredenciales(String usuario, String password){		
+		return ctrDAO.validaCredenciales(usuario, password);
 	}
 	
 }

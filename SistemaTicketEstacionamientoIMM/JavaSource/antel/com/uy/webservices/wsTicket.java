@@ -1,7 +1,5 @@
 package antel.com.uy.webservices;
 
-import java.util.Date;
-
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
@@ -13,7 +11,7 @@ public class wsTicket {
 
 	
 	@WebMethod()
-	public DataTicket altaTicket(String matricula, Date fechaIniE, int cantMinutos, Date fechaVenta, String agencia){
+	public DataTicket altaTicket(String matricula, String fechaIniE, int cantMinutos, String fechaVenta, String agencia){
 		ctrWS ctr = ctrWS.getInstance();		
 		return ctr.altaTicket(matricula, fechaIniE, cantMinutos, fechaVenta, agencia);
 	}

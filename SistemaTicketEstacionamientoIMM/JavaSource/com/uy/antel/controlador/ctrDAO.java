@@ -38,7 +38,7 @@ public class ctrDAO {
 		boolean agenciaOK=false;
         try {
         	Connection conn = getConexion();
-        	//Verifico si existe en el sistema un auto con esa matricula
+        	//Verifico si existe en el sistema agencia con ese identificador
         	PreparedStatement ps_agencia = conn.prepareStatement("SELECT idAgencia FROM agencia WHERE identificador=?");
         	ps_agencia.setString(1, agencia);
         	ResultSet rs_agencia = ps_agencia.executeQuery();             
@@ -150,6 +150,27 @@ public class ctrDAO {
         }
         
         return idNuevoTicket;
-	}	
+	}
+	
+	public static boolean validaCredenciales(String usuario, String password){
+		boolean usuarioOK=false;
+        try {
+        	Connection conn = getConexion();
+        	//Verifico si existe en el sistema un usuario con esas credenciales
+        	PreparedStatement ps_usuario = conn.prepareStatement("SELECT id FROM usuario WHERE usuario=? AND password=?");
+        	ps_usuario.setString(1, usuario);
+        	ps_usuario.setString(2, password);
+        	ResultSet rs_usuario = ps_usuario.executeQuery();             
+            if (rs_usuario.next()) {            	
+            	usuarioOK = true;
+            } 
+            rs_usuario.close();                           
+            conn.close();           
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return usuarioOK;
+	}
 
 }

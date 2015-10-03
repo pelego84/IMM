@@ -19,8 +19,8 @@ public class ctrWS {
 		return instance;			
 	}
 	
-	public DataTicket altaTicket(String matricula, Date fechaIniE, int cantMinutos, Date fechaVenta, String agencia){
-		ctrAgencia ctr = ctrAgencia.getInstance();
+	public DataTicket altaTicket(String matricula, String fechaIniE, int cantMinutos, String fechaVenta, String agencia){
+		ctrAgencia ctr = ctrAgencia.getInstance();	
 		return ctr.altaTicket(matricula, fechaIniE, cantMinutos, fechaVenta, agencia);
 	}
 		
