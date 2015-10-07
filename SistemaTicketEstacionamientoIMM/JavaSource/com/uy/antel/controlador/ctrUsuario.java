@@ -1,5 +1,6 @@
 package com.uy.antel.controlador;
 
+
 public class ctrUsuario {
 	private static ctrUsuario instance;
 	
@@ -13,6 +14,7 @@ public class ctrUsuario {
 		}
 		return instance;			
 	}
+		
 	
 	public boolean validaCredenciales(String usuario, String password){		
 		return ctrDAO.validaCredenciales(usuario, password);

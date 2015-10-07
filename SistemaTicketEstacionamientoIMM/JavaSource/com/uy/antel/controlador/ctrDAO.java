@@ -4,11 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import com.uy.antel.beans.BReporteVentaMensual;
 
 
 public class ctrDAO {
@@ -172,5 +176,26 @@ public class ctrDAO {
         
         return usuarioOK;
 	}
+	
+	public static List<BReporteVentaMensual> getReporteVentaMensual(String anio){
+		List<BReporteVentaMensual> reporteMensual = new ArrayList<BReporteVentaMensual>();
+        try {
+        	Connection conn = getConexion();        	
+        	PreparedStatement ps_reporte = conn.prepareStatement("SELECT MONTH(t.fechaVenta) as 'Mes',sum(t.ImporteTotal) as 'ImporteMensual', count(*) as 'CantidadDeTicket' FROM imm.ticket t WHERE YEAR(t.fechaVenta)=? GROUP BY MONTH(t.fechaVenta)");
+        	ps_reporte.setString(1, anio);
+        	ResultSet rs_reporte = ps_reporte.executeQuery();             
+            while (rs_reporte.next()) {            	
+            	reporteMensual.add(new BReporteVentaMensual(rs_reporte.getInt("ImporteMensual"),rs_reporte.getInt("Mes"),rs_reporte.getInt("CantidadDeTicket")));
+            } 
+            rs_reporte.close();                           
+            conn.close();           
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return reporteMensual;
+	}
+	
+	
 
 }

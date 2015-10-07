@@ -3,6 +3,8 @@ package com.uy.antel.beans;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import javax.servlet.http.HttpSession;
+
 import com.uy.antel.controlador.ctrUsuario;
 
 public class MBLogin {
@@ -29,9 +31,12 @@ public class MBLogin {
 	public String procesarLogin(){
 		String destino = "Error";
 		ctrUsuario ctr = ctrUsuario.getInstance();
-		if (ctr.validaCredenciales(usuario,password))
+		if (ctr.validaCredenciales(usuario,password)){
 			destino = "OK";
-		else{
+			FacesContext facesContext = FacesContext.getCurrentInstance();
+			HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
+			session.setAttribute("UsuarioIMM", usuario);			
+		}else{
 			String errorMessage = "El usuario y password no son correctos.";
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,errorMessage, errorMessage);	
 			FacesContext.getCurrentInstance().addMessage(null, message);			

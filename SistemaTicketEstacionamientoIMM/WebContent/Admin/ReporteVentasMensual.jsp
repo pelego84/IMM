@@ -1,3 +1,4 @@
+<%@page import="com.uy.antel.controlador.ctrReportes"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="f"  uri="http://java.sun.com/jsf/core"%>
 <%@ taglib prefix="h"  uri="http://java.sun.com/jsf/html"%>
@@ -19,6 +20,7 @@
 			<td cospan="1"><h1>Reportes Mensules</h1></td>
 		</tr>		
 	</table>
+	<% ctrReportes.getInstance().generarReporteVentaMensual("2015"); %>
 	</h:form>
 </f:view>
 </body>
