@@ -2,7 +2,7 @@ package com.uy.antel.beans;
 
 public class BReporteVentaMensual {
 	private int importeTotal;
-	private int mes;
+	private String mes;
 	private int cantTicket;
 	
 	
@@ -10,7 +10,7 @@ public class BReporteVentaMensual {
 		
 	}
 	
-	public BReporteVentaMensual(int importeTotal, int mes, int cantTicket){
+	public BReporteVentaMensual(int importeTotal, String mes, int cantTicket){
 		this.importeTotal = importeTotal;
 		this.mes = mes;
 		this.cantTicket = cantTicket;
@@ -26,12 +26,12 @@ public class BReporteVentaMensual {
 	}
 
 
-	public int getMes() {
+	public String getMes() {
 		return mes;
 	}
 
 
-	public void setMes(int mes) {
+	public void setMes(String mes) {
 		this.mes = mes;
 	}
 

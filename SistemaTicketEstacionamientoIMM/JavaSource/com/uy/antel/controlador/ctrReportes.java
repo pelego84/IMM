@@ -1,6 +1,8 @@
 package com.uy.antel.controlador;
 
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,12 +13,13 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 import com.uy.antel.beans.BReporteVentaMensual;
 
 
 public class ctrReportes {
 	private static ctrReportes instance;
-	private static String sourceFileName = "C://Tools//jasperreports-6.1.1//tests//ReporteVentaMensual.jrxml";
+	private static String sourceDirName = "C://ReportesJasperReport//";
 	
 	private ctrReportes(){
 		
@@ -47,7 +50,7 @@ public class ctrReportes {
 	}
 	
 	private void completarArchivoConBeans(String anio){
-		sourceFileName = "C://Tools//jasperreports-6.1.1//tests//jasper_report_template.jasper";
+		String sourceFileName = sourceDirName + "jasper_report_template.jasper";
 		List<BReporteVentaMensual> dataList = getReporteVentaMensual(anio);                   
         JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataList);
         Map parameters = new HashMap();
@@ -64,17 +67,18 @@ public class ctrReportes {
         JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataList);
         Map parameters = new HashMap();       
         try {
-               printFileName = JasperFillManager.fillReportToFile(sourceFileName, parameters, beanColDataSource);
+            String sourceFileName = sourceDirName  + "jasper_report_template.jasper";   
+        	printFileName = JasperFillManager.fillReportToFile(sourceFileName, parameters, beanColDataSource);
                if (printFileName != null) {
                       /**
                       * 1- export to PDF
                       */
-                      JasperExportManager.exportReportToPdfFile(printFileName, "C://Tools//jasperreports-6.1.1//tests//ReporteVentaMensual.pdf");
+                      JasperExportManager.exportReportToPdfFile(printFileName, sourceDirName + "ReporteVentaMensual.pdf");
 
                       /**
                       * 2- export to HTML
                       */
-                      JasperExportManager.exportReportToHtmlFile(printFileName, "C://Tools//jasperreports-6.1.1//tests//ReporteVentaMensual.html");
+                      JasperExportManager.exportReportToHtmlFile(printFileName,sourceDirName + "ReporteVentaMensual.html");
                }
         } catch (JRException e) {
                e.printStackTrace();
@@ -88,6 +92,8 @@ public class ctrReportes {
 		  * Compile the report to a file name same as
 		  * the JRXML file name
 		  */
+			String sourceFileName = sourceDirName + "ReporteVentaMensual.jrxml";   
+			System.out.println(sourceFileName);
 		     JasperCompileManager.compileReportToFile( sourceFileName );
 		  } catch (JRException e) {
 		     e.printStackTrace(); 
