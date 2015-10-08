@@ -32,7 +32,7 @@ public class ctrReportes {
 		return instance;			
 	}
 	
-	private List<BReporteVentaMensual> getReporteVentaMensual(String anio){
+	public List<BReporteVentaMensual> getReporteVentaMensual(String anio){
 		List<BReporteVentaMensual> reporteMensual = new ArrayList<BReporteVentaMensual>();
         try {
         	reporteMensual = ctrDAO.getReporteVentaMensual(anio);
