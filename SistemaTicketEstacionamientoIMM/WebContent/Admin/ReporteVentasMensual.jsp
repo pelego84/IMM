@@ -16,15 +16,22 @@
 	
 	<h1>Reportes Mensules</h1>
 	
-	<h:outputLabel>Exportar Reporte</h:outputLabel>
-         <h:selectOneRadio value="#{manejadorReportes.tipoReporte}">
-          <f:selectItem itemValue="PDF" itemLabel="PDF"/>
-          <f:selectItem itemValue="HTML" itemLabel="HTML"/>
-          <f:selectItem itemValue="EXCEL" itemLabel="EXCEL"/>
-          <f:selectItem itemValue="RTF" itemLabel="RTF"/>
-    </h:selectOneRadio>
-    <h:commandButton  action="#{manejadorReportes.exportar}" value="Obtener Reporte" />
-	
+	<table>
+		<tr>
+			<td>
+				<h:outputLabel>Exportar Reporte</h:outputLabel>
+			         <h:selectOneRadio value="#{manejadorReportes.tipoReporte}">
+			          <f:selectItem itemValue="PDF" itemLabel="PDF"/>
+			          <f:selectItem itemValue="HTML" itemLabel="HTML"/>
+			          <f:selectItem itemValue="EXCEL" itemLabel="EXCEL"/>
+			          <f:selectItem itemValue="RTF" itemLabel="RTF"/>
+			    </h:selectOneRadio>
+	    	</td>
+	    	<td>
+    			<h:commandButton  action="#{manejadorReportes.exportar}" value="Obtener Reporte" />
+    		</td>
+	    </tr>
+	</table>
 	<h:dataTable value="#{manejadorReportes.reporteVentasMensual}" styleClass="bordered" var="reporteMes">
 		<h:column>
 	        <f:facet name="header">
