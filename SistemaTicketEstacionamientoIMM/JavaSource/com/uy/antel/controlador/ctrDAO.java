@@ -181,7 +181,7 @@ public class ctrDAO {
 		List<BReporteVentaMensual> reporteMensual = new ArrayList<BReporteVentaMensual>();
         try {
         	Connection conn = getConexion();        	
-        	PreparedStatement ps_reporte = conn.prepareStatement("SELECT m.mes as 'Mes',coalesce(SUM(t.importeTotal), 0) as 'ImporteMensual', coalesce(count(*)-1, 0) as 'CantidadDeTicket' FROM imm.mes m LEFT JOIN imm.ticket t on m.idMes = MONTH(t.fechaVenta) AND YEAR(t.fechaVenta)=? GROUP BY m.mes ORDER BY m.idMes asc");
+        	PreparedStatement ps_reporte = conn.prepareStatement("SELECT m.mes as 'Mes',coalesce(SUM(t.importeTotal), 0) as 'ImporteMensual', IFNULL(count(t.nroTicket), 0) as 'CantidadDeTicket' FROM imm.mes m LEFT JOIN imm.ticket t on m.idMes = MONTH(t.fechaVenta) AND YEAR(t.fechaVenta)=? GROUP BY m.mes ORDER BY m.idMes asc");
         	ps_reporte.setString(1, anio);
         	ResultSet rs_reporte = ps_reporte.executeQuery();             
             while (rs_reporte.next()) {            	
