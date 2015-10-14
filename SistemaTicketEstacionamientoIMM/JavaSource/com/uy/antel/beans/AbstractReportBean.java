@@ -38,12 +38,14 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
 import com.uy.antel.controlador.ctrReportes;
 import com.uy.antel.util.ReportConfigUtil;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
@@ -76,34 +78,39 @@ public abstract class AbstractReportBean {
         File reportFile = new File(ReportConfigUtil.getJasperFilePath(context, getCompileDir(), "jasper_report_template.jasper"));
  
         JasperPrint jasperPrint = ReportConfigUtil.fillReport(reportFile, getReportParameters(), beanColDataSource);
-        String nom_archivo = TipoReporte.EXCEL.equals(getTipoReporte()) ? "ReporteVentasMensual.xlsx"  : "ReporteVentasMensual" + "." + getTipoReporte();
+        String nom_archivo = TipoReporte.EXCEL.equals(getTipoReporte()) ? "ReporteVentasMensual.xls"  : "ReporteVentasMensual" + "." + getTipoReporte();
         String path_archivo = context.getRealPath(getCompileDir() + nom_archivo);
         
         HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        
+        JasperExportManager.exportReportToPdfFile(jasperPrint, path_archivo);
+        
         byte[] encoded = null;
         if (TipoReporte.PDF.equals(getTipoReporte())){
         	 httpServletResponse.setContentType("application / pdf");
-             httpServletResponse.addHeader("Content-disposition", "inline; filename=Receipt_" + nom_archivo);
              encoded = JasperExportManager.exportReportToPdf(jasperPrint);
         }else if (TipoReporte.HTML.equals(getTipoReporte())){ 
         	JasperExportManager.exportReportToHtmlFile(jasperPrint, path_archivo);
         	httpServletResponse.setContentType("text/html");
         	encoded = Files.readAllBytes(Paths.get(path_archivo));
-        }else if (TipoReporte.EXCEL.equals(getTipoReporte())){         	
-        	
-             File xlsx = new File(path_archivo);
-             JRXlsxExporter exporterXLSX = new JRXlsxExporter();
-             exporterXLSX.setParameter(JRExporterParameter.JASPER_PRINT,jasperPrint);
-             exporterXLSX.setParameter(JRExporterParameter.OUTPUT_FILE,xlsx);
-             exporterXLSX.exportReport();
-        	
-            httpServletResponse.setHeader("Content-Disposition", "inline;filename=" + path_archivo);
+        }else if (TipoReporte.EXCEL.equals(getTipoReporte())){  
+        	JRXlsExporter exporter = new JRXlsExporter();
+        	ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+        	exporter.setParameter(JRExporterParameter.JASPER_PRINT,jasperPrint);
+        	exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,byteArrayOutputStream);
+        	exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,Boolean.FALSE);
+        	exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,Boolean.TRUE);
+        	exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS,Boolean.TRUE);
+        	exporter.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN,Boolean.TRUE);
+        	exporter.setParameter(JRXlsExporterParameter.IGNORE_PAGE_MARGINS,Boolean.TRUE);
+        	exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,Boolean.FALSE);
+        	exporter.exportReport();
+        	encoded =byteArrayOutputStream.toByteArray();        	
             httpServletResponse.setContentType("application/vnd.ms-excel");
-
         }
          
        
-        httpServletResponse.addHeader("Content-disposition", "inline; filename=Receipt_" + nom_archivo);
+        httpServletResponse.addHeader("Content-disposition", "inline; filename=" + nom_archivo);
         ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
 
         servletOutputStream.write(encoded);

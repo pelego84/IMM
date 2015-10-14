@@ -20,7 +20,8 @@
 				<h:outputLabel>Exportar Reporte</h:outputLabel>
 			         <h:selectOneRadio value="#{manejadorReportes.tipoReporte}">
 			          <f:selectItem itemValue="PDF" itemLabel="PDF"/>
-			          <f:selectItem itemValue="HTML" itemLabel="HTML"/>			          
+			          <f:selectItem itemValue="HTML" itemLabel="HTML"/>
+			          <f:selectItem itemValue="EXCEL" itemLabel="EXCEL"/>			          
 			    </h:selectOneRadio>
 	    	</td>
 	    	<td>
