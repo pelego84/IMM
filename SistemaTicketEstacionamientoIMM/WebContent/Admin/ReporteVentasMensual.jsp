@@ -5,7 +5,7 @@
 <html> 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Reporte Mensuales</title>
 <style type="text/css">
 	<%@ include file="css/estilos.css" %>
 </style>
@@ -15,6 +15,7 @@
 <h:form id="formRepMensual">	
 	<h1>Reportes Mensules</h1>	
 	<table>
+		<tr><td><h:commandLink value="Logout" action="#{manejadorlogin.logout}"/></td></tr>
 		<tr>
 			<td>
 				<h:outputLabel>Exportar Reporte</h:outputLabel>

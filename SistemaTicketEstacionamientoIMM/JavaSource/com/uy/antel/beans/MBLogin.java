@@ -1,8 +1,8 @@
 package com.uy.antel.beans;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-
 import javax.servlet.http.HttpSession;
 
 import com.uy.antel.controlador.ctrUsuario;
@@ -42,5 +42,11 @@ public class MBLogin {
 			FacesContext.getCurrentInstance().addMessage(null, message);			
 		}
 		return destino;
+	}
+	
+	public String logout() {
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+		((HttpSession) ctx.getSession(false)).invalidate();
+		return "OK_LOGOUT";		
 	}
 }
