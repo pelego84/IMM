@@ -12,23 +12,19 @@
 </head>
 <body>
 <f:view>
-<h:form id="formRepMensual">
-	
-	<h1>Reportes Mensules</h1>
-	
+<h:form id="formRepMensual">	
+	<h1>Reportes Mensules</h1>	
 	<table>
 		<tr>
 			<td>
 				<h:outputLabel>Exportar Reporte</h:outputLabel>
 			         <h:selectOneRadio value="#{manejadorReportes.tipoReporte}">
 			          <f:selectItem itemValue="PDF" itemLabel="PDF"/>
-			          <f:selectItem itemValue="HTML" itemLabel="HTML"/>
-			          <f:selectItem itemValue="EXCEL" itemLabel="EXCEL"/>
-			          <f:selectItem itemValue="RTF" itemLabel="RTF"/>
+			          <f:selectItem itemValue="HTML" itemLabel="HTML"/>			          
 			    </h:selectOneRadio>
 	    	</td>
 	    	<td>
-    			<h:commandButton  action="#{manejadorReportes.exportar}" value="Obtener Reporte" />
+    			<h:commandButton onclick="this.form.target='_blank'"  action="#{manejadorReportes.exportar}" value="Obtener Reporte" />
     		</td>
 	    </tr>
 	</table>

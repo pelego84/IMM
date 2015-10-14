@@ -57,10 +57,6 @@ public  class MBReportes extends AbstractReportBean{
 	public MBReportes(){
 		
 	}
-
-	
-
-	
 	
 	public String getAnio() {
 		return anio;
