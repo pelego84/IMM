@@ -58,6 +58,66 @@ public class ctrDAO {
         return agenciaOK;
 	}
 	
+	public static boolean existeTicketAgencia(int nroTicket, String agencia){
+		boolean existeTicket=false;
+        try {
+        	Connection conn = getConexion();
+        	//Verifico si existe en el sistema el ticket para esa agencia
+        	PreparedStatement ps_ticket = conn.prepareStatement("SELECT nroTicket FROM ticket JOIN agencia on fk_agencia=idAgencia AND identificador=? WHERE nroTicket=?");
+        	ps_ticket.setString(1, agencia);
+        	ps_ticket.setInt(2, nroTicket);
+        	ResultSet rs_ticket = ps_ticket.executeQuery();             
+            if (rs_ticket.next()) {            	
+            	existeTicket = true;
+            } 
+            rs_ticket.close();                           
+            conn.close();           
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return existeTicket;
+	}
+	
+	public static boolean estaAnuladoTicket(int nroTicket){
+		boolean anuladoTicket=false;
+        try {
+        	Connection conn = getConexion();
+        	//Verifico si existe anulacion para ese ticket
+        	PreparedStatement ps_ticket = conn.prepareStatement("SELECT nroTicket FROM ticket WHERE nroTicket=? AND !isnull(fk_anulacion)");
+        	ps_ticket.setInt(1, nroTicket);
+        	ResultSet rs_ticket = ps_ticket.executeQuery();             
+            if (rs_ticket.next()) {            	
+            	anuladoTicket = true;
+            } 
+            rs_ticket.close();                           
+            conn.close();           
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return anuladoTicket;
+	}
+	
+	public static Date getFechaIniEstacionamientoTicket(int nroTicket){
+		Date fechaEstacionamiento = new Date();
+        try {
+        	Connection conn = getConexion();
+        	//Obtengo la fecha de inicio del estacionamiento
+        	PreparedStatement ps_ticket = conn.prepareStatement("SELECT fechaIniE FROM ticket WHERE nroTicket=?");
+        	ps_ticket.setInt(1, nroTicket);
+        	ResultSet rs_ticket = ps_ticket.executeQuery();             
+            if (rs_ticket.next()) {            	
+            	fechaEstacionamiento = rs_ticket.getDate("fechaIniE");
+            } 
+            rs_ticket.close();                           
+            conn.close();           
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return fechaEstacionamiento;
+	}
 	
 	
 	
@@ -110,7 +170,7 @@ public class ctrDAO {
 	}
 	
 	
-	public static int altaTicket(int idAuto,Date fechaIniE, int cantMinutos, Date fechaVenta, int importe){
+	public static int altaTicket(int idAuto,Date fechaIniE, int cantMinutos, Date fechaVenta, int importe, String agencia){
 		int idNuevoTicket=-1;
         try {
         	Connection conn = getConexion();
@@ -137,14 +197,15 @@ public class ctrDAO {
             //Agrego el nuevo Ticket
             java.sql.Timestamp sqlfechaIniE = new java.sql.Timestamp(fechaIniE.getTime());
 		    java.sql.Timestamp sqlfechaVenta = new java.sql.Timestamp(fechaVenta.getTime());
-            PreparedStatement ps_insert_auto = conn.prepareStatement("INSERT INTO ticket(nroTicket, fechaVenta, fechaIniE, cantMinutos, ImporteTotal,  fk_auto) values (?,?,?,?,?,?)");            
-            ps_insert_auto.setInt(1, idNuevoTicket);
-            ps_insert_auto.setTimestamp(2, sqlfechaVenta);
-            ps_insert_auto.setTimestamp(3, sqlfechaIniE);
-            ps_insert_auto.setInt(4, cantMinutos);
-            ps_insert_auto.setInt(5, importe);
-            ps_insert_auto.setInt(6, idAuto);
-            ps_insert_auto.executeUpdate();
+            PreparedStatement ps_insert_ticket = conn.prepareStatement("INSERT INTO ticket(nroTicket, fechaVenta, fechaIniE, cantMinutos, ImporteTotal,  fk_auto, fk_agencia) values (?,?,?,?,?,?,(SELECT idAgencia FROM agencia WHERE identificador=?))");            
+            ps_insert_ticket.setInt(1, idNuevoTicket);
+            ps_insert_ticket.setTimestamp(2, sqlfechaVenta);
+            ps_insert_ticket.setTimestamp(3, sqlfechaIniE);
+            ps_insert_ticket.setInt(4, cantMinutos);
+            ps_insert_ticket.setInt(5, importe);
+            ps_insert_ticket.setInt(6, idAuto);
+            ps_insert_ticket.setString(7, agencia);
+            ps_insert_ticket.executeUpdate();
             
             conn.commit();
             conn.setAutoCommit(true);                
@@ -155,6 +216,47 @@ public class ctrDAO {
         
         return idNuevoTicket;
 	}
+	
+	public static int anularTicket(int nroTicket){
+		int codigoAnulacion=-1;
+        try {
+        	Connection conn = getConexion();
+        	conn.setAutoCommit(false);
+        	
+        	//Obtengo codigoAnulacion de la secuencia
+            PreparedStatement ps_secuencia = conn.prepareStatement("SELECT idAnulacion FROM secuencias");
+            ResultSet rs_secuencia = ps_secuencia.executeQuery();
+            int secuencia;
+            if (rs_secuencia.next()) {
+                secuencia = rs_secuencia.getInt("idAnulacion");
+                codigoAnulacion = secuencia;
+                secuencia++;
+            } else {
+                throw new SQLException("No se pudo obtener el identificador de secuencia de la anulacion");
+            }
+            rs_secuencia.close();
+            
+        	//Actualizo secuencia idAnulacion
+            PreparedStatement ps_update_secuencia = conn.prepareStatement("update secuencias set idAnulacion=?");
+            ps_update_secuencia.setInt(1, secuencia);
+            ps_update_secuencia.executeUpdate();
+            
+            //Anulo el  Ticket            
+            PreparedStatement ps_update_ticket = conn.prepareStatement("UPDATE ticket SET fk_anulacion = ? WHERE nroTicket = ?");            
+            ps_update_ticket.setInt(1, codigoAnulacion);
+            ps_update_ticket.setInt(2, nroTicket); 
+            ps_update_ticket.executeUpdate();
+            
+            conn.commit();
+            conn.setAutoCommit(true);                
+            conn.close();           
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return codigoAnulacion;
+	}
+	
 	
 	public static boolean validaCredenciales(String usuario, String password){
 		boolean usuarioOK=false;
@@ -181,7 +283,7 @@ public class ctrDAO {
 		List<BReporteVentaMensual> reporteMensual = new ArrayList<BReporteVentaMensual>();
         try {
         	Connection conn = getConexion();        	
-        	PreparedStatement ps_reporte = conn.prepareStatement("SELECT m.mes as 'Mes',coalesce(SUM(t.importeTotal), 0) as 'ImporteMensual', IFNULL(count(t.nroTicket), 0) as 'CantidadDeTicket' FROM imm.mes m LEFT JOIN imm.ticket t on m.idMes = MONTH(t.fechaVenta) AND YEAR(t.fechaVenta)=? GROUP BY m.mes ORDER BY m.idMes asc");
+        	PreparedStatement ps_reporte = conn.prepareStatement("SELECT m.mes as 'Mes',coalesce(SUM(t.importeTotal), 0) as 'ImporteMensual', IFNULL(count(t.nroTicket), 0) as 'CantidadDeTicket' FROM imm.mes m LEFT JOIN imm.ticket t on m.idMes = MONTH(t.fechaVenta) AND YEAR(t.fechaVenta)=? AND isnull(t.fk_anulacion) GROUP BY m.mes ORDER BY m.idMes asc");
         	ps_reporte.setString(1, anio);
         	ResultSet rs_reporte = ps_reporte.executeQuery();             
             while (rs_reporte.next()) {            	
