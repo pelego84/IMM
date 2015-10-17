@@ -4,6 +4,7 @@ package com.uy.antel.controlador;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
+import com.uy.antel.beans.BReportePorFecha;
 import com.uy.antel.beans.BReporteVentaMensual;
 
 
@@ -42,6 +44,18 @@ public class ctrReportes {
         
         return reporteMensual;
 	}
+	
+	public List<BReportePorFecha> getReportePorFecha(Date fechaDesde, Date fechaHasta){
+		List<BReportePorFecha> reportePorFecha = new ArrayList<BReportePorFecha>();
+        try {
+        	reportePorFecha = ctrDAO.getReportePorFecha(fechaDesde, fechaHasta);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return reportePorFecha;
+	}
+	
 	
 	public void generarReporteVentaMensual(String anio){
 		compilaReporte();

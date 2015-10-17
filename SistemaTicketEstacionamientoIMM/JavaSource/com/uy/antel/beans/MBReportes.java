@@ -3,6 +3,9 @@ package com.uy.antel.beans;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,9 +38,24 @@ import com.uy.antel.util.ReportConfigUtil;
 
 public  class MBReportes extends AbstractReportBean{
 	
-	private final String COMPILE_FILE_NAME = "ReporteVentaMensual";
+	private String COMPILE_FILE_NAME = "ReporteVentaMensual";
+	
+	public enum AccionReporte {		 
+        MENSUAL,POR_FECHA
+    } 
+	
+	public AccionReporte accionReporte;
+	
 	   
-    @Override
+    public AccionReporte getAccionReporte() {
+		return accionReporte;
+	}
+
+	public void setAccionReporte(AccionReporte accionReporte) {
+		this.accionReporte = accionReporte;
+	}
+
+	@Override
     protected String getCompileFileName() {
         return COMPILE_FILE_NAME;
     }
@@ -53,9 +71,41 @@ public  class MBReportes extends AbstractReportBean{
 		
 	private String anio;
 	private List<BReporteVentaMensual> reporteVentasMensual;
+	private List<BReportePorFecha> reportePorFecha;
+	private Date fechaDesde;
+	private Date fechaHasta;	
+	
 
 	public MBReportes(){
 		
+	}
+	
+	public List<BReportePorFecha> getReportePorFecha() {
+		List<BReportePorFecha> result = new ArrayList<BReportePorFecha>();
+		if ((fechaDesde!=null && fechaHasta!=null)){			
+			result = ctrReportes.getInstance().getReportePorFecha(fechaDesde,fechaHasta);
+		}
+		return result;
+	}
+
+	public void setReportePorFecha(List<BReportePorFecha> reportePorFecha) {
+		this.reportePorFecha = reportePorFecha;
+	}
+	
+	public Date getFechaDesde() {
+		return fechaDesde;
+	}
+
+	public void setFechaDesde(Date fechaDesde) {
+		this.fechaDesde = fechaDesde;
+	}
+
+	public Date getFechaHasta() {
+		return fechaHasta;
+	}
+
+	public void setFechaHasta(Date fechaHasta) {
+		this.fechaHasta = fechaHasta;
 	}
 	
 	public String getAnio() {
@@ -76,11 +126,29 @@ public  class MBReportes extends AbstractReportBean{
 	}
 	
     	
-	 public String exportar(){		 	 
+	 public String exportar(String tipo){		 	 
+		 try {			 
+			 AccionReporte tipo_enum = AccionReporte.valueOf(tipo);
+			 JRBeanCollectionDataSource beanColDataSource = null;
+			 if (tipo_enum == AccionReporte.MENSUAL){
+				 COMPILE_FILE_NAME = "ReporteVentaMensual";				 
+				 List<BReporteVentaMensual> dataList = ctrReportes.getInstance().getReporteVentaMensual("2015");                   
+				 beanColDataSource = new JRBeanCollectionDataSource(dataList);			      
+			  }else if (tipo_enum == AccionReporte.POR_FECHA){
+				  COMPILE_FILE_NAME = "ReportePorFecha";
+				  List<BReportePorFecha> dataList = ctrReportes.getInstance().getReportePorFecha(fechaDesde,fechaHasta);                 
+				  beanColDataSource = new JRBeanCollectionDataSource(dataList);			      
+			 }			 
+			 super.prepareReport(beanColDataSource);
+	        } catch (Exception e) {
+	        	e.printStackTrace();
+	        }
+		 return null;
+	 }
+	 
+	 public String filtrar(){		 	 
 		 try {
-			  List<BReporteVentaMensual> dataList = ctrReportes.getInstance().getReporteVentaMensual("2015");                   
-		      JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataList); 
-		      super.prepareReport(beanColDataSource);
+			 	getReportePorFecha();
 	        } catch (Exception e) {
 	        	e.printStackTrace();
 	        }

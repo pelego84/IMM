@@ -32,15 +32,22 @@
 	 
 	 
 	 <managed-bean>
-	  <managed-bean-name>manejadorlogin</managed-bean-name>
-	  <managed-bean-class>com.uy.antel.beans.MBLogin</managed-bean-class>
-	  <managed-bean-scope>request</managed-bean-scope>	  
+	 	<managed-bean-name>manejadorlogin</managed-bean-name>
+	 	<managed-bean-class>com.uy.antel.beans.MBLogin</managed-bean-class>
+	 	<managed-bean-scope>request</managed-bean-scope>	  
 	 </managed-bean>
 	 
 	 <managed-bean>
-	  <managed-bean-name>manejadorReportes</managed-bean-name>
-	  <managed-bean-class>com.uy.antel.beans.MBReportes</managed-bean-class>
-	  <managed-bean-scope>request</managed-bean-scope>	  
+	 	<managed-bean-name>manejadorReportes</managed-bean-name>
+	 	<managed-bean-class>com.uy.antel.beans.MBReportes</managed-bean-class>
+	 	<managed-bean-scope>session</managed-bean-scope>	  
 	 </managed-bean>
+	
+	 
+	<application>
+	  <message-bundle>
+	  	mensajes_es
+	  </message-bundle>
+     </application>
 
 </faces-config>

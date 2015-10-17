@@ -78,7 +78,7 @@ public abstract class AbstractReportBean {
         File reportFile = new File(ReportConfigUtil.getJasperFilePath(context, getCompileDir(), "jasper_report_template.jasper"));
  
         JasperPrint jasperPrint = ReportConfigUtil.fillReport(reportFile, getReportParameters(), beanColDataSource);
-        String nom_archivo = TipoReporte.EXCEL.equals(getTipoReporte()) ? "ReporteVentasMensual.xls"  : "ReporteVentasMensual" + "." + getTipoReporte();
+        String nom_archivo = TipoReporte.EXCEL.equals(getTipoReporte()) ? (getCompileFileName()+".xls")  : "getCompileFileName()" + "." + getTipoReporte();
         String path_archivo = context.getRealPath(getCompileDir() + nom_archivo);
         
         HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();

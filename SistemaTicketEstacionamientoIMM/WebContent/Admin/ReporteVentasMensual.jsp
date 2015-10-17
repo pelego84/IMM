@@ -26,7 +26,7 @@
 			    </h:selectOneRadio>
 	    	</td>
 	    	<td>
-    			<h:commandButton onclick="this.form.target='_blank'"  action="#{manejadorReportes.exportar}" value="Obtener Reporte" />
+    			<h:commandButton onclick="this.form.target='_blank'"  action="#{manejadorReportes.exportar('MENSUAL')}" value="Obtener Reporte" />
     		</td>
 	    </tr>
 	</table>

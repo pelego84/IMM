@@ -12,6 +12,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.uy.antel.beans.BReportePorFecha;
 import com.uy.antel.beans.BReporteVentaMensual;
 
 
@@ -298,6 +299,27 @@ public class ctrDAO {
         return reporteMensual;
 	}
 	
+	public static List<BReportePorFecha> getReportePorFecha(Date fechaDesde, Date fechaHasta){
+		List<BReportePorFecha> reportePorFecha = new ArrayList<BReportePorFecha>();
+        try {
+        	Connection conn = getConexion();        	
+        	PreparedStatement ps_reporte = conn.prepareStatement("SELECT coalesce(SUM(t.importeTotal), 0) as 'ImporteTotal', IFNULL(count(t.nroTicket), 0) as 'CantidadDeTicket' FROM ticket t WHERE isnull(t.fk_anulacion) AND t.fechaVenta>=? AND t.fechaVenta<=?");
+        	java.sql.Date sqlFechaDesde = new java.sql.Date(fechaDesde.getTime());
+        	java.sql.Date sqlFechaHasta = new java.sql.Date(fechaHasta.getTime());
+        	ps_reporte.setDate(1, sqlFechaDesde);
+        	ps_reporte.setDate(2, sqlFechaHasta);
+        	ResultSet rs_reporte = ps_reporte.executeQuery();             
+            while (rs_reporte.next()) {            	
+            	reportePorFecha.add(new BReportePorFecha(rs_reporte.getInt("ImporteTotal"),rs_reporte.getInt("CantidadDeTicket")));
+            } 
+            rs_reporte.close();                           
+            conn.close();           
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return reportePorFecha;
+	}
 	
 
 }

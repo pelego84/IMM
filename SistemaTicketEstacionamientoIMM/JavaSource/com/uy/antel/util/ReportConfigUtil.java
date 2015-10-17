@@ -38,9 +38,6 @@ public class ReportConfigUtil {
     public static boolean compileReport(ServletContext context, String compileDir, String filename) throws JRException {
         String jasperFileName = context.getRealPath(compileDir + filename + ".jasper");
         File jasperFile = new File(jasperFileName); 
-        if (jasperFile.exists()) {
-            return true;
-        }
         try {
             setCompileTempDir(context, compileDir); 
             String xmlFileName = jasperFileName.substring(0, jasperFileName.indexOf(".jasper")) + ".jrxml";
