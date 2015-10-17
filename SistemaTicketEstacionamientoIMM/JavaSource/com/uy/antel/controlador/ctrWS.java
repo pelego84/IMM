@@ -2,6 +2,7 @@ package com.uy.antel.controlador;
 
 import java.util.Date;
 
+import com.uy.antel.modelo.DataAnulacion;
 import com.uy.antel.modelo.DataTicket;
 
 public class ctrWS {
@@ -24,6 +25,10 @@ public class ctrWS {
 		return ctr.altaTicket(matricula, fechaIniE, cantMinutos, fechaVenta, agencia);
 	}
 		
+	public DataAnulacion anulacionTicket(int nroTicket, String agencia){
+		ctrAgencia ctr = ctrAgencia.getInstance();	
+		return ctr.anulacionTicket(nroTicket, agencia);
+	}
 	
 	
 }
