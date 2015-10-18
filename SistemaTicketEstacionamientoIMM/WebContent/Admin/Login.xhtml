@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/BasicTemplate.xhtml">
+	<div id="header">
+	    <ui:define name="header">	    	
+	    	<div style="background-color:#16636D;width:100%;height:100px;color:black;">
+				<table>	
+					<tr><td><h1>Sistema Ticket Estacionamiento IMM</h1></td></tr>					
+				</table>
+			</div>
+	    </ui:define>
+	</div>
+		
+	<ui:define name="content">
+	    <h:form id="formLogin">	
+			<h:messages id="idMsg" globalOnly="true" errorClass="err" warnClass="warn" infoClass="info"></h:messages>
+			<table align="center">
+				<tr>
+					<td cospan="1"><h1>LOGIN</h1></td>
+				</tr>
+				<tr>
+					<td><h:outputText id="idOutputUsu" value="Usuario"/></td>
+					<td>
+						<h:inputText id="idInputUsu" required="true" requiredMessage="Por favor ingrese su Usuario."  value="#{manejadorlogin.usuario}" />					
+						<h:message for="idInputUsu" errorClass="err" />
+					</td>
+				</tr>
+				<tr>
+					<td><h:outputText id="idOutputClave"  value="Password"/></td>
+					<td>
+						<h:inputSecret id="idInputClave" required="true" requiredMessage="Por favor ingrese su Password."   value="#{manejadorlogin.password}"></h:inputSecret>
+						<h:message for="idInputClave" errorClass="err" />
+					</td>			
+				</tr>	
+				<tr><td></td><td></td></tr>
+				<tr>
+					<td></td>
+					<td align="left">
+						<h:commandButton id="idComButtomLogin"  value="Login" action="#{manejadorlogin.procesarLogin}">					
+						</h:commandButton>
+					</td>
+				</tr>
+			</table>
+		</h:form>
+	</ui:define>
+	
+</ui:composition>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/BasicTemplate.xhtml">
+	
+	<ui:define name="content">
+	    <h:form id="formRepPorFecha">	
+			<h1>Reportes Por Fecha</h1>	
+			<table>				
+				<tr>
+					<td>
+						<h:outputLabel>Exportar Reporte</h:outputLabel>
+					         <h:selectOneRadio value="#{manejadorReportes.tipoReporte}">
+					          <f:selectItem itemValue="PDF" itemLabel="PDF"/>
+					          <f:selectItem itemValue="HTML" itemLabel="HTML"/>
+					          <f:selectItem itemValue="EXCEL" itemLabel="EXCEL"/>			          
+					    </h:selectOneRadio>
+			    	</td>
+			    	<td>
+		    			<h:commandButton onclick="this.form.target='_blank'"  action="#{manejadorReportes.exportar('POR_FECHA')}" value="Obtener Reporte" />
+		    		</td>
+			    </tr>
+			    <tr>	
+			    	<td><h:outputText id="idOutputFechaIni" value="Fecha Desde"/></td>
+					<td>
+						<h:inputText  id="idInputFechaIni" required="true" immediate="true" requiredMessage="La fecha desde es obligatoria" value="#{manejadorReportes.fechaDesde}">					
+							<f:convertDateTime pattern="dd-mm-yyyy" />					
+						</h:inputText>				
+						<h:message for="idInputFechaIni" errorClass="err"></h:message>
+					</td>			
+			    </tr>
+			    <tr>
+			    	<td><h:outputText id="idOutputFechaFin" value="Fecha Hasta"/></td>
+					<td>
+						<h:inputText  id="idInputFechaFin" required="true" immediate="true" requiredMessage="La fecha hasta es obligatoria"  value="#{manejadorReportes.fechaHasta}">					
+							<f:convertDateTime pattern="dd-MM-yyyy" />
+						</h:inputText>
+						<h:message for="idInputFechaFin" errorClass="err"></h:message>
+					</td>    
+			    </tr>	    
+			    <tr>
+			    	<td>
+		    			<h:commandButton   action="#{manejadorReportes.filtrar}" value="Filtrar" />
+		    		</td>			
+				</tr>	    
+			</table>
+			
+			<br></br>
+			<h:dataTable value="#{manejadorReportes.reportePorFecha}" styleClass="bordered" var="itemReporte">
+				<h:column>
+			        <f:facet name="header">
+			            <h:outputText value="Importe Total" />
+			        </f:facet>
+			        <h:outputText value="#{itemReporte.importeTotal}" />
+			    </h:column>	
+			    <h:column>
+			        <f:facet name="header">
+			            <h:outputText value="Cantidad de Ticket" />
+			        </f:facet>
+			        <h:outputText value="#{itemReporte.cantTicket}" />
+			    </h:column>	   
+			</h:dataTable>			
+		</h:form>
+	</ui:define>
+	
+</ui:composition>
+</html>

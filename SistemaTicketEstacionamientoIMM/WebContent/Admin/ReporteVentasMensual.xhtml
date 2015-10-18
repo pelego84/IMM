@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/BasicTemplate.xhtml">
+	
+	<ui:define name="content">
+	    <h:form id="formRepMensual">	
+			<h1>Reportes Mensules</h1>	
+			<table>				
+				<tr>
+					<td>
+						<h:outputLabel>Exportar Reporte</h:outputLabel>
+					         <h:selectOneRadio value="#{manejadorReportes.tipoReporte}">
+					          <f:selectItem itemValue="PDF" itemLabel="PDF"/>
+					          <f:selectItem itemValue="HTML" itemLabel="HTML"/>
+					          <f:selectItem itemValue="EXCEL" itemLabel="EXCEL"/>			          
+					    </h:selectOneRadio>
+			    	</td>
+			    	<td>
+		    			<h:commandButton onclick="this.form.target='_blank'"  action="#{manejadorReportes.exportar('MENSUAL')}" value="Obtener Reporte" />
+		    		</td>
+			    </tr>
+			</table>
+			
+			<br></br>
+			<h:dataTable value="#{manejadorReportes.reporteVentasMensual}" styleClass="bordered" var="reporteMes">
+				<h:column>
+			        <f:facet name="header">
+			            <h:outputText value="Mes" />
+			        </f:facet>
+			        <h:outputText value="#{reporteMes.mes}" />
+			    </h:column>	
+			    <h:column>
+			        <f:facet name="header">
+			            <h:outputText value="Importe Total" />
+			        </f:facet>
+			        <h:outputText value="#{reporteMes.importeTotal}" />
+			    </h:column>	
+			    <h:column>
+			        <f:facet name="header">
+			            <h:outputText value="Cantidad de Ticket" />
+			        </f:facet>
+			        <h:outputText value="#{reporteMes.cantTicket}" />
+			    </h:column>
+			   
+			</h:dataTable>
+			
+		
+		</h:form>
+	</ui:define>
+	
+</ui:composition>
+</html>
