@@ -109,7 +109,7 @@ public class ctrDAO {
         	ps_ticket.setInt(1, nroTicket);
         	ResultSet rs_ticket = ps_ticket.executeQuery();             
             if (rs_ticket.next()) {            	
-            	fechaEstacionamiento = rs_ticket.getDate("fechaIniE");
+            	fechaEstacionamiento = rs_ticket.getTimestamp("fechaIniE");
             } 
             rs_ticket.close();                           
             conn.close();           
