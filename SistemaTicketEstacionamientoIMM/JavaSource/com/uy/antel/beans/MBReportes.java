@@ -61,10 +61,16 @@ public  class MBReportes extends AbstractReportBean{
     }
  
     @Override
-    protected Map<String, Object> getReportParameters() {
+    protected Map<String, Object> getReportParameters() {        
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();        
+        ServletContext context = (ServletContext) externalContext.getContext();
         Map<String, Object> reportParameters = new HashMap<String, Object>();
- 
-        reportParameters.put("rtitle", "Hello JasperReports");
+        reportParameters.put("rimglogo", context.getRealPath("Admin/img/logo_imm.jpg") );       
+        if (accionReporte == AccionReporte.MENSUAL){
+        	reportParameters.put("rtitle", "Reporte Mensual de Ventas");
+        }else if (accionReporte == AccionReporte.POR_FECHA){
+            reportParameters.put("rtitle", "Reporte de Ventas");
+         }
  
         return reportParameters;
     }
@@ -129,6 +135,7 @@ public  class MBReportes extends AbstractReportBean{
 	 public String exportar(String tipo){		 	 
 		 try {			 
 			 AccionReporte tipo_enum = AccionReporte.valueOf(tipo);
+			 this.accionReporte = tipo_enum;
 			 JRBeanCollectionDataSource beanColDataSource = null;
 			 if (tipo_enum == AccionReporte.MENSUAL){
 				 COMPILE_FILE_NAME = "ReporteVentaMensual";				 

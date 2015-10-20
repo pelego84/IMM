@@ -3,7 +3,12 @@
   <jasperReport xmlns = "http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation = "http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
   name = "jasper_report_template" pageWidth = "595" pageHeight = "842" columnWidth = "555" leftMargin = "20" rightMargin = "20" topMargin = "20" bottomMargin = "20" >
-      <queryString>
+     <property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="rtitle" class="java.lang.String"/>
+	<parameter name="rimglogo" class="java.lang.String"/>
+	  <queryString>
                <![CDATA[]]>
       </queryString>
       <field name = "importeTotal" class = "java.lang.Integer" >
@@ -12,6 +17,21 @@
       <field name = "cantTicket" class = "java.lang.Integer" >
           <fieldDescription> <![CDATA[cantTicket]]> </fieldDescription>
       </field>
+	  <title>
+		<band height="50">
+			<textField>
+				<reportElement x="58" y="0" width="477" height="50" uuid="1fdbbec1-b7a1-4152-a8e9-3fa6101c3bb5"/>
+				<textElement>
+					<font size="30"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rtitle}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="421" height="50" uuid="f18d2f60-0cee-4a91-9096-7ad6413e1748"/>
+				<imageExpression><![CDATA[$P{rimglogo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
       <columnHeader>
                <band height = "23">
                       <staticText>
@@ -27,14 +47,14 @@
                              <textElement textAlignment = "Center" verticalAlignment = "Middle">
                              <font isBold = "true" />
                              </textElement>
-                             <text> <![CDATA[importeTotal]]> </text>
+                             <text> <![CDATA[Importe Total]]> </text>
                       </staticText>
                       <staticText>
                              <reportElement x = "300" y = "3" width = "121" height = "15" />
                              <textElement textAlignment = "Center" verticalAlignment = "Middle">
                              <font isBold = "true" />
                              </textElement>
-                             <text> <![CDATA[cantTicket]]> </text>
+                             <text> <![CDATA[Cantidad de Tickets]]> </text>
                       </staticText>
                    
                </band>
